@@ -3,9 +3,10 @@
 set -eu -o pipefail
 set -x
 
-ARCHITECTURES="linux/arm64"
+ARCHITECTURES="linux/amd64 linux/arm64"
 VERSIONS="8.4.0 8.0.36 5.7.44"
 VERSIONS="8.0.36 5.7.44"
+VERSIONS=8.0.36
 
 
 docker pull randyfay/cmake

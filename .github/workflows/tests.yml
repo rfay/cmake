@@ -42,6 +42,6 @@ jobs:
       - name: Set up for multi-arch
         run: sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
-      - name: Run arm64 docker container
+      - name: Build mysql clients
         run: |
-          docker run --rm --platform=linux/arm64 debian:bookworm bash -c 'arch && cat /etc/*release*'
+          ./build-clients.sh
