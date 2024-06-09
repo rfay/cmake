@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 ## Clone MySQL source code
 #RUN git clone https://github.com/mysql/mysql-server.git /mysql-server
 
-WORKDIR /mysql-server
+WORKDIR /src
 
 ## Checkout MySQL 8.0 branch
 #RUN git checkout mysql-8.0
