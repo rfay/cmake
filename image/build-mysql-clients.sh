@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# Compile MySQL clients
-cmake . -DDOWNLOAD_BOOST=1 -DWITH_BOOST=/usr/local/boost \
-    && make mysqlclient mysqldump
+set -eu -o pipefail
 
-# Move the binaries to a more accessible location
-cp client/mysql /usr/local/bin/
-cp client/mysqldump /usr/local/bin/
+set -x
 
-# Ensure clients are executable
-chmod +x /usr/local/bin/mysql /usr/local/bin/mysqldump
+mkdir -p build && pushd build
+
+cmake .. -DWITHOUT_SERVER=1 -DDOWNLOAD_BOOST=1 -DWITH_BOOST=/usr/local/boost
+make mysql mysqldump
+
+# Binaries end up in build/runtime_output_directory
+chmod +x runtime_output_directory/mysql runtime_output_directory/mysqldump
 
 # Output version to verify
-mysql --version
-mysqldump --version
+runtime_output_directory/mysql --version
+runtime_output_directory/mysqldump --version
