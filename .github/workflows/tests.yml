@@ -37,6 +37,6 @@ jobs:
 
       - name: Run basic docker container
         run: |
-          docker run --rm debian:bookworm bash -c 'cat /etc/*release*'
+          docker run --rm debian:bookworm bash -c 'arch && cat /etc/*release*'
 
 
