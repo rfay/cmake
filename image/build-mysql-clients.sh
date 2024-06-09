@@ -4,7 +4,8 @@ set -eu -o pipefail
 
 set -x
 
-BUILDDIR=build_${TARGETARCH}
+ARCH=$(arch)
+BUILDDIR=build_${ARCH}
 rm -rf ${BUILDDIR}
 mkdir -p ${BUILDDIR}
 
