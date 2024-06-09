@@ -30,6 +30,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run basic docker container
         run: |
-          docker run -it --rm debian:bookworm cat /etc/*release*
+          docker run --rm debian:bookworm cat /etc/*release*
 
 
