@@ -1,19 +1,17 @@
-
 FROM debian:bookworm
+ARG TARGETARCH
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     git \
+    libsasl2-dev \
     libssl-dev \
     libncurses5-dev \
     bison \
     pkg-config \
     libtirpc-dev
-
-## Clone MySQL source code
-#RUN git clone https://github.com/mysql/mysql-server.git /mysql-server
 
 WORKDIR /src
 
