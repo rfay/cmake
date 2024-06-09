@@ -4,9 +4,8 @@ set -eu -o pipefail
 
 set -x
 
-mkdir -p build && pushd build
-
-cmake .. -DWITHOUT_SERVER=1 -DDOWNLOAD_BOOST=1 -DWITH_BOOST=/usr/local/boost
+cmake -Bbuild -H. -DWITHOUT_SERVER=1 -DDOWNLOAD_BOOST=1 -DWITH_BOOST=/usr/local/boost
+cd build
 make mysql mysqldump
 
 # Binaries end up in build/runtime_output_directory
