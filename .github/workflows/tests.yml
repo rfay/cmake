@@ -51,13 +51,17 @@ jobs:
 
       - name: "Tar up the binaries"
         run: |
-          tar -czf ./mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz "./mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}/bin/*"
+          tar -czf ./mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz ./mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}/bin/*
 
       - name: "upload mysql-${{ matrix.dbversion }}-${{ matrix.arch }}"
         uses: actions/upload-artifact@v4
         with:
           name: mysql ${{ matrix.dbversion }} ${{ matrix.arch }}
           path: "./mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz"
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
 
   release:
     runs-on: ubuntu-24.04
