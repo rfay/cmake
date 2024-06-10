@@ -45,3 +45,9 @@ jobs:
       - name: Build mysql clients
         run: |
           ./build-clients.sh
+
+      - name: mysql 8.0 amd64 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mysql 8.0 amd64
+          path: ${{ github.workspace }}/mysql_8.0*/build_X86*/runtime_output_directory/mysql*

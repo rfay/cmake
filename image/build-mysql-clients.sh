@@ -8,20 +8,14 @@ ARCH=$(arch)
 BUILDDIR=build_${ARCH}
 rm -rf ${BUILDDIR}
 mkdir -p ${BUILDDIR}
+# OUTPUTDIR contructed from required MYSQL_VERSION and ARCH
+OUTPUTDIR="/src/built_${MYSQL_VERSION}_${ARCH}"
 
-cmake -B${BUILDDIR} -H. -DWITHOUT_SERVER=1 -DDOWNLOAD_BOOST=1 -DWITH_BOOST=/usr/local/boost
+cmake -B${BUILDDIR} -H. -DWITHOUT_SERVER=1 -DDOWNLOAD_BOOST=1 -DWITH_BOOST=/usr/local/boost -DCMAKE_INSTALL_PREFIX=${OUTPUTDIR}
 cd ${BUILDDIR}
 make mysql mysqldump
+make install
 
-# mysql8 has runtime_output_directory
-OUTPUTDIR=runtime_output_directory
-if [ ! -d ${OUTPUTDIR} ]; then
-  # mysql 5.7 has "client" for output dir
-  OUTPUTDIR=client
-fi
-# Binaries end up in $OUTPUTDIR
-chmod +x ${OUTPUTDIR}/mysql ${OUTPUTDIR}/mysqldump
-
-# Output version to verify
-${OUTPUTDIR}/mysql --version
-${OUTPUTDIR}/mysqldump --version
+# Output version to verify version and arch
+${OUTPUTDIR}/bin/mysql --version
+${OUTPUTDIR}/bin/mysqldump --version
