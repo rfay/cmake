@@ -34,11 +34,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+#      - name: Setup tmate session
+#        uses: mxschmitt/action-tmate@v3
+#        with:
+#          limit-access-to-actor: true
+#        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
 
       - name: Run basic docker container
         run: |
@@ -51,8 +51,14 @@ jobs:
         run: |
           ./build-clients.sh --mysql-version ${{ matrix.dbversion }} --arch ${{ matrix.arch }}
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+
       - name: mysql ${{ matrix.dbversion }} ${{ matrix.arch }} artifacts
         uses: actions/upload-artifact@v4
         with:
           name: mysql ${{ matrix.dbversion }} ${{ matrix.arch }}
-          path: "mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}"
+          path: "./mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}"
