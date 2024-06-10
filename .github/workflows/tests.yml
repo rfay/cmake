@@ -49,11 +49,15 @@ jobs:
         run: |
           ./build-clients.sh --mysql-version ${{ matrix.dbversion }} --arch ${{ matrix.arch }}
 
-      - name: "mysql-${{ matrix.dbversion }}-${{ matrix.arch }}"
+      - name: "Tar up the binaries"
+        run: |
+          tar -czf ./mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz "./mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}/bin/*"
+
+      - name: "upload mysql-${{ matrix.dbversion }}-${{ matrix.arch }}"
         uses: actions/upload-artifact@v4
         with:
           name: mysql ${{ matrix.dbversion }} ${{ matrix.arch }}
-          path: "./mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}/bin"
+          path: "./mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz"
 
   release:
     runs-on: ubuntu-24.04
@@ -68,18 +72,13 @@ jobs:
         with:
           path: ./artifacts
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
+#      - name: Install GitHub CLI
+#        run: sudo apt-get update && sudo apt-get install -y gh
 
-      - name: Install GitHub CLI
-        run: sudo apt-get update && sudo apt-get install -y gh
-
-      - name: Create Release
+      - name: Add files to release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./artifacts/**
+          files: ./artifacts/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
