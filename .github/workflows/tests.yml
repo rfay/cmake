@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        dbversion: ["8.0.36"]
+        dbversion: ["5.7.44"]
         arch: ["amd64"]
       fail-fast: false
 
