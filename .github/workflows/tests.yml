@@ -55,4 +55,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mysql ${{ matrix.dbversion }} ${{ matrix.arch }}
-          path: ${{ github.workspace }}/mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}/bin
+          path: "mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}"
