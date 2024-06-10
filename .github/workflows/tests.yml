@@ -53,10 +53,10 @@ jobs:
         run: |
           tar -C ./mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}/bin/ -czf ./mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz .
 
-      - name: "upload mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz"
+      - name: "upload mysql-${{ matrix.dbversion }}-${{ matrix.arch }}"
         uses: actions/upload-artifact@v4
         with:
-          name: mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz
+          name: mysql-${{ matrix.dbversion }}-${{ matrix.arch }}
           path: "./mysql-${{ matrix.dbversion }}-${{ matrix.arch }}.tar.gz"
 
       - name: Setup tmate session
@@ -82,7 +82,7 @@ jobs:
       - name: Add files to release
         uses: softprops/action-gh-release@v1
         with:
-          files: ./artifacts/*.tar.gz
+          files: ./artifacts/*/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
