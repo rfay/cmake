@@ -68,13 +68,18 @@ jobs:
         with:
           path: ./artifacts
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+
       - name: Install GitHub CLI
         run: sudo apt-get update && sudo apt-get install -y gh
 
-      - name: Upload Release Assets
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          for file in $(find ./artifacts -type f); do
-            gh release upload "${{ github.ref }}" "$file" --clobber
-          done
+#      - name: Upload Release Assets
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          for file in $(find ./artifacts -type f); do
+#            gh release upload "${{ github.ref }}" "$file" --clobber
+#          done
