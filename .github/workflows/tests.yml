@@ -19,8 +19,6 @@ permissions:
 
 env:
   BUILDKIT_PROGRESS: plain
-  DDEV_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   tests:
@@ -81,10 +79,13 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Install GitHub CLI
+        run: sudo apt-get update && sudo apt-get install -y gh
+
       - name: Upload Release Assets
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts
-          asset_name: mysql-clients
-          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for file in $(find ./artifacts -type f); do
+            gh release upload "${{ github.ref }}" "$file" --clobber
+          done
