@@ -28,3 +28,7 @@ But mostly a new release will create a set of tarballs for each version and arch
 
 You can update the list of things to be built in the "strategy" section of .github/workflows/tests.yaml
 
+## When to build
+
+Luckily, this doesn't have to be built too terribly often. Mostly it's only when we have a new mysql server version to deploy.
+
