@@ -25,6 +25,11 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        dbversion: ["8.0.36"]
+        arch: ["amd64"]
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v4
@@ -44,10 +49,10 @@ jobs:
 
       - name: Build mysql clients
         run: |
-          ./build-clients.sh
+          ./build-clients.sh --mysql-version ${{ matrix.dbversion }} --arch ${{ matrix.arch }}
 
-      - name: mysql 8.0 amd64 artifacts
+      - name: mysql ${{ matrix.dbversion }} ${{ matrix.arch }} artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mysql 8.0 amd64
-          path: ${{ github.workspace }}/mysql_8.0*/build_X86*/runtime_output_directory/mysql*
+          name: mysql ${{ matrix.dbversion }} ${{ matrix.arch }}
+          path: ${{ github.workspace }}/mysql_${{ matrix.dbversion }}/built_${{ matrix.dbversion }}_${{ matrix.arch }}/bin
